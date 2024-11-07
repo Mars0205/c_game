@@ -1,0 +1,12 @@
+Anna 2 200 100 100 100 100 100
+END_F
+Echo 2 200 100 100 100 100 100
+F Anna
+F Alpha
+END_F
+Alpha 1 100 0 0 0 0 0
+END_F
+MESSAGES
+MSG Echo Anna Hello Anna
+MSG Echo Alpha Hello Alpha
+END_M
