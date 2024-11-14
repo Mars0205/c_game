@@ -7,7 +7,7 @@ FILE *file = fopen(filename, "wb");
     }
 
     // 保存角色信息
-    fwrite(character_count, sizeof(int), 1, file);
+    fwrite(&character_count, sizeof(int), 1, file);
     for (int i = 0; i < character_count; i++) {
         fwrite(&characters[i], sizeof(Character), 1, file);
     }
@@ -33,7 +33,7 @@ int load_game(const char *filename) {
     }
 
     // 读取角色信息
-    fread(character_count, sizeof(int), 1, file);
+    fread(&character_count, sizeof(int), 1, file);
     for (int i = 0; i < character_count; i++) {
         fread(&characters[i], sizeof(Character), 1, file);
     }
