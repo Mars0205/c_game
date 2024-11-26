@@ -64,15 +64,36 @@ void handle_complete_task() {
 
 void handle_add_friend() {
     char name[20], friend_name[20];
-    printf("请输入您的角色名称：");
-    scanf("%s", name);
-    printf("请输入好友名称：");
-    scanf("%s", friend_name);
-    if (add_friend(name, friend_name)) {
-        printf("%s 已添加 %s 为好友！\n", name, friend_name);
-    } else {
-        printf("添加好友失败。\n");
+    Character *current;
+    while(1){
+        printf("请输入您的角色名称：");
+        scanf("%s", name);
+        current = retrieve_character(name);
+        if(current){
+            break;
+        }
+        else printf("角色名不存在，请重新输入\n");
     }
+    while(1){
+        printf("请输入好友名称：");
+        scanf("%s", friend_name);
+        if(retrieve_character(friend_name)){
+            if(find_friend(friend_name, current -> friends)){
+                if (add_friend(name, friend_name)) {
+                    printf("%s 已添加 %s 为好友！\n", name, friend_name);
+                }
+                else {
+                    printf("添加好友失败。\n");
+                }
+                break;
+            }
+            else {
+                printf("好友已存在！\n");//需要修改
+            }
+        }
+        else printf("角色名不存在，请重新输入\n");
+    }
+    
 }
 
 void handle_send_message() {

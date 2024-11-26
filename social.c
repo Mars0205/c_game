@@ -61,8 +61,41 @@ MessageList* receive_messages(const char *name) {
 }
 
 
+//该函数用于查找Friendlist里面是否已经有待添加好友
+int find_friend(const char *friend_name,struct FriendList *head0)//!!!!
+{
+    FriendList *suibian=head0;//!!!!
+    while(suibian)
+    {
+        if(strcmp(suibian->name,friend_name)==0)return 0;//列表中已经有此好友
+        suibian=suibian->next;
+    }
+    return 1;
+}
+
+
 int add_friend(const char *name, const char *friend_name) {
+    //tail0为尾指针，用于链表
+    FriendList *tail0 = NULL;
+    Character *now_character;
+    now_character = retrieve_character(name);
+    FriendList *new_friend=(FriendList*)malloc(sizeof(FriendList));
     
+    strcpy(new_friend->name,friend_name);
+    new_friend->next = NULL;
+        
+    if(now_character->friends == NULL)
+        {
+            //tail0 = new_friend;
+            now_character->friends = new_friend;
+        }
+    else
+        {
+            tail0 = new_friend;
+            tail0 -> next = now_character->friends;
+            now_character -> friends = tail0;
+        }
+        return 1;
 }
 
 
