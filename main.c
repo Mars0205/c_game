@@ -3,7 +3,7 @@
 #include "tasks.h"
 #include "social.h"
 #include "manage.h"
-
+#include <windows.h> //防乱码
 
 // 全局数据库模拟
 Character characters[20]; //角色数据库最多只能存储20条角色纪录，利用数组模拟
@@ -105,7 +105,7 @@ void handle_receive_messages() {
 }
 
 void handle_save_game() {
-    char name[20]="game_save.txt";
+    char name[20]="game_save.log";
     //printf("请输入角色名称以保存：");
     //scanf("%s", name);
     if (save_game(name)) {
@@ -116,7 +116,7 @@ void handle_save_game() {
 }
 
 void handle_load_game() {
-    char name[20]="game_save.txt";
+    char name[20]="game_save.log";
     //printf("请输入角色名称以加载：");
     //scanf("%s", name);
     if (load_game(name)) {
@@ -129,6 +129,7 @@ void handle_load_game() {
 
 
 int main() {
+    SetConsoleOutputCP(65001);
     int choice;
     do {
         display_menu();
