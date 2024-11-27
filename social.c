@@ -100,10 +100,24 @@ int add_friend(const char *name, const char *friend_name) {
 
 
 void display_friends(const char *name) {
-    
+    Character *now_character;
+    now_character = retrieve_character(name);
+    FriendList *current = now_character->friends;
+    while (current != NULL) {
+        printf("%s\n", current->name);
+        current = current->next;
+    }
 
 }
 
 void free_friends(Character *character) {
-    
+    for(int i=0;i<20;i++){
+        FriendList *current = characters[i].friends;
+        FriendList *next;
+        while (current != NULL) {
+            next = current->next;
+            free(current);
+            current = next;
+        }
+    }
 }

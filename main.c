@@ -118,7 +118,10 @@ void handle_send_message() {
         if(!find_friend(to_name, current -> friends)){
             break;
         }
-        else printf("无法和不是好友的对象通信，请重新输入\n");
+        else {
+            printf("无法和不是好友的对象通信，请重新输入\n当前好友列表： \n");
+            display_friends(from_name);
+        }
     }
     printf("请输入消息内容：");
     getchar(); // 清除输入缓冲区
