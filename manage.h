@@ -11,7 +11,6 @@ extern int save_game(const char *filename);
 //加载游戏状态
 extern int load_game(const char *filename);
 
-
 //释放动态分配内存
 extern void free_memory(void);
 

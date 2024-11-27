@@ -30,7 +30,7 @@ void handle_create_character() {
     scanf("%s", name);
     if (!retrieve_character(name)) {
         if (create_character(name)) {
-            printf("角色 %s 创建成功！\n", name);
+            printf("角色 %s 创建成功！", name);
         } else {
             printf("角色创建失败，可能已达到角色数量上限。\n");
         }
@@ -151,40 +151,40 @@ void handle_load_game() {
 
 int main() {
     SetConsoleOutputCP(65001);
-    int choice;
+    char* input[100];
     do {
         display_menu();
-        scanf("%d", &choice);
-
+        scanf("%s",input);
+        char choice = input[0];
         switch (choice) {
-            case 1:
+            case '1':
                 handle_create_character();
                 break;
-            case 2:
+            case '2':
                 handle_complete_task();
                 break;
-            case 3:
+            case '3':
                 handle_add_friend();
                 break;
-            case 4:
+            case '4':
                 handle_send_message();
                 break;
-            case 5:
+            case '5':
                 handle_receive_messages();
                 break;
-            case 6:
+            case '6':
                 handle_load_game();
                 break;
-            case 7:
+            case '7':
                 handle_save_game();
                 break;
-            case 8:
+            case '8':
                 free_memory();//释放动态分配的内存
                 printf("退出游戏，感谢您的游玩！\n");
                 break;
             default:
                 printf("无效的选项，请重试。\n");
         }
-    } while (choice != 8);
+    } while (input[0] != '8');
     return 0;
 }

@@ -25,7 +25,6 @@ FILE *file = fopen(filename, "wb");
 }
 
 
-
 int load_game(const char *filename) {
     FILE *file = fopen(filename, "rb");
     if (file == NULL) {
