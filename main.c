@@ -151,7 +151,7 @@ void handle_load_game() {
 
 int main() {
     SetConsoleOutputCP(65001);
-    char* input[100];
+    char input[10];
     do {
         display_menu();
         scanf("%s",input);
