@@ -54,7 +54,7 @@ void handle_complete_task() {
         if (complete_task(name, selectedTask, reward)) {
             update_character_status(name);
         } else {
-            printf("课程参加失败，请检查角色名称是否正确。\n");
+            printf("课程参加失败，请检查输入是否正确。\n");
         }
     }
     else{
@@ -79,6 +79,10 @@ void handle_add_friend() {
         scanf("%s", friend_name);
         if(retrieve_character(friend_name)){
             if(find_friend(friend_name, current -> friends)){
+                if(name == friend_name){
+                    printf("无法和自己成为好友！\n");
+                    break;
+                }
                 if (add_friend(name, friend_name)) {
                     printf("%s 已添加 %s 为好友！\n", name, friend_name);
                 }
@@ -98,10 +102,24 @@ void handle_add_friend() {
 
 void handle_send_message() {
     char from_name[20], to_name[20], message[100];
-    printf("请输入您的角色名称：");
-    scanf("%s", from_name);
-    printf("请输入好友名称：");
-    scanf("%s", to_name);
+    Character *current;
+    while(1){
+        printf("请输入您的角色名称：");
+        scanf("%s", from_name);
+        current = retrieve_character(from_name);
+        if(current){
+            break;
+        }
+        else printf("角色名不存在，请重新输入\n");
+    }
+    while(1){
+        printf("请输入好友名称：");
+        scanf("%s", to_name);
+        if(!find_friend(to_name, current -> friends)){
+            break;
+        }
+        else printf("无法和不是好友的对象通信，请重新输入\n");
+    }
     printf("请输入消息内容：");
     getchar(); // 清除输入缓冲区
     fgets(message, 100, stdin);
