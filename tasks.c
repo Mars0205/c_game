@@ -3,9 +3,9 @@
 int complete_task(const char *name, TaskType type,int reward) {
     // 检索角色
     Character *character = retrieve_character(name);
-    if (character == NULL) {
+    if (!character) {
         // 角色不存在，返回0表示任务未完成
-        printf("error:未找到角色");
+        printf("error:未找到角色\n");
         return 0;
     }
 
