@@ -10,5 +10,4 @@ int complete_task(const char *name, TaskType type,int reward);
 
 
 
-
 #endif // CLASS_H_INCLUDED

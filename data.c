@@ -1,32 +1,44 @@
 #include "data.h"
 
-/*int store_character(Character* character)
-{
-    if (character_count >= 20) {
-        return 0; // 失败返回0
-    }
-    characters[character_count++] = *character;
-    return 1; // 成功返回1
-}*/
-
 Character* retrieve_character(const char* name)
 {
     for (int i = 0; i < character_count; ++i) {
         if (strcmp(characters[i].name, name) == 0) {
-            return &characters[i]; // 找到则返回指针
+            return &characters[i];
         }
     }
-    return NULL; // 未找到则返回NULL
+    return NULL;
 }
 
-/*int store_message(MessageList* msg)
+Character* find_friend(const char *friend_name,struct FriendList *head0)//!!!!
 {
-    if (message_count >= 100) {
-        return 0; // 失败返回0
+    FriendList *suibian=head0;//!!!!
+    while(suibian)
+    {
+        if(strcmp(suibian->name,friend_name)==0){
+            return retrieve_character(friend_name);//列表中有此好友
+        }
+        suibian=suibian->next;
     }
-    messages[message_count++] = *msg;
-    return 1; // 成功返回1
-}*/
+    return NULL;
+}
+
+int store_message(MessageList* msg)
+{
+    
+    if(messages == NULL){
+        messages = msg;
+    }
+    else {
+        MessageList* current = messages;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = msg;
+    }
+    
+    return 1;
+}
 
 
 /*MessageList* retrieve_messages(const char* name)// 检索消息链表messages以获取角色接收到的消息列表

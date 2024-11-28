@@ -1,35 +1,36 @@
 #include "social.h"
 
-MessageList *message_head = NULL;
-int send_message(const char *from_name, const char *to_name, char *message) {
-    MessageList *new_message = (MessageList *)malloc(sizeof(MessageList));
-    if (new_message == NULL) {
-        return 0;  // 内存分配失败
-    }
+MessageList* createMessage(const char* sender, const char* receiver, const char* content) {
+    MessageList* newMessage = (MessageList*)malloc(sizeof(MessageList));
+    strncpy(newMessage->from_name, sender, 20 - 1);
+    strncpy(newMessage->to_name, receiver, 20 - 1);
+    strncpy(newMessage->message, content, 100 - 1);
+    
+    newMessage->next = NULL;
+    return newMessage;
+}
 
-    // 初始化消息
-    strcpy(new_message->from_name, from_name);
-    strcpy(new_message->to_name, to_name);
-    strcpy(new_message->message, message);
-    new_message->next = NULL;
+int send_message(const char *from_name, const char *to_name, char *message) {
+    
+    printf("请输入消息内容：");
+    getchar(); // 清除输入缓冲区
+    fgets(message, 100, stdin);
+    // 确保字符串以空字符结尾
+    message[strcspn(message, "\n")] = '\0'; // 去除换行符
+
+    MessageList *new_message = createMessage(from_name, to_name, message);
 
     // 将消息添加到链表
-    if (message_head == NULL) {
-        message_head = new_message;
-    } else {
-        MessageList *current = message_head;
-        while (current->next != NULL) {
-            current = current->next;
-        }
-        current->next = new_message;
-    }
+    store_message(new_message);
 
     return 1;  // 消息发送成功
 
 }
 
+
 MessageList* receive_messages(const char *name) {
-    MessageList *current = message_head;
+    
+    MessageList *current = messages;
     MessageList *received_messages = NULL, *last = NULL;
 
     // 遍历消息链表，筛选出符合条件的消息
@@ -58,19 +59,6 @@ MessageList* receive_messages(const char *name) {
 
     return received_messages;  // 返回接收到的消息列表
 
-}
-
-
-//该函数用于查找Friendlist里面是否已经有待添加好友
-int find_friend(const char *friend_name,struct FriendList *head0)//!!!!
-{
-    FriendList *suibian=head0;//!!!!
-    while(suibian)
-    {
-        if(strcmp(suibian->name,friend_name)==0)return 0;//列表中已经有此好友
-        suibian=suibian->next;
-    }
-    return 1;
 }
 
 
@@ -103,12 +91,16 @@ void display_friends(const char *name) {
     Character *now_character;
     now_character = retrieve_character(name);
     FriendList *current = now_character->friends;
+    if(current == NULL){
+        printf("<暂无好友>\n");
+    }
     while (current != NULL) {
         printf("%s\n", current->name);
         current = current->next;
     }
 
 }
+
 
 void free_friends(Character *character) {
     for(int i=0;i<20;i++){
@@ -119,5 +111,28 @@ void free_friends(Character *character) {
             free(current);
             current = next;
         }
+    }
+}
+
+
+void printMessages(MessageList* head) {
+    MessageList* current = head;
+    while (current != NULL) {
+        printf("Sender: %s\n", current->from_name);
+        printf("Receiver: %s\n", current->to_name);
+        printf("Content: %s\n", current->message);
+        printf("----------------------\n");
+        current = current->next;
+    }
+}
+
+
+void freeMessages(MessageList* head) {
+    MessageList* current = head;
+    MessageList* next;
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
     }
 }

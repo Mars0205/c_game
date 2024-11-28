@@ -75,10 +75,10 @@ void handle_add_friend() {
         else printf("角色名不存在，请重新输入\n");
     }
     while(1){
-        printf("请输入好友名称：");
+        printf("请输入想要添加的好友名称：");
         scanf("%s", friend_name);
         if(retrieve_character(friend_name)){
-            if(find_friend(friend_name, current -> friends)){
+            if(!find_friend(friend_name, current -> friends)){
                 if(name == friend_name){
                     printf("无法和自己成为好友！\n");
                     break;
@@ -113,20 +113,20 @@ void handle_send_message() {
         else printf("角色名不存在，请重新输入\n");
     }
     while(1){
-        printf("请输入好友名称：");
+        printf("请输入想要通信的好友名称：");
         scanf("%s", to_name);
-        if(!find_friend(to_name, current -> friends)){
+        if(to_name[0] == '+'){
+            handle_add_friend();
+        }
+        else if(find_friend(to_name, current -> friends)){
             break;
         }
         else {
-            printf("无法和不是好友的对象通信，请重新输入\n当前好友列表： \n");
+            printf("无法和陌生对象通信!(更改名称/输入+号以添加好友)\n当前好友列表： \n");
             display_friends(from_name);
         }
     }
-    printf("请输入消息内容：");
-    getchar(); // 清除输入缓冲区
-    fgets(message, 100, stdin);
-    message[strcspn(message, "\n")] = '\0'; // 去除换行符
+    
     if (send_message(from_name, to_name, message)) {
         printf("消息已发送！\n");
     } else {
@@ -140,6 +140,9 @@ void handle_receive_messages() {
     scanf("%s", name);
     MessageList *msgs = receive_messages(name);
     printf("=== %s 收到的消息列表 ===\n", name);
+    if( msgs == NULL){
+        printf("<暂无消息>");
+    }
     while (msgs) {
         printf("来自 %s: %s\n", msgs->from_name, msgs->message);
         msgs = msgs->next;

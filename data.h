@@ -55,12 +55,11 @@ extern int character_count; //已建立角色数量
 
 /* 数据库模拟函数 */
 
-//往角色数据库中添加纪录
-//添加成功返回0，失败（数据库已满）返回1
-int store_character(Character *character);
-
 //在角色数据库中检索，成功返回被检索信息，失败返回空指针
 Character* retrieve_character(const char *name);
+
+//在角色好友链表中检索，成功返回被检索信息，失败返回空指针
+Character* find_friend(const char *friend_name,struct FriendList *head0);
 
 //往消息数据库中添加纪录，成功返回1
 int store_message(MessageList *msg);
